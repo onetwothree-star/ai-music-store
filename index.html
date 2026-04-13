@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Music Studio - AI生成背景音乐</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #00d9ff, #ff6b9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            font-size: 1.3em;
+            color: #aaa;
+            margin-bottom: 30px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(90deg, #00d9ff, #00b4d8);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.4);
+        }
+        
+        .section {
+            padding: 60px 20px;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.2em;
+            margin-bottom: 40px;
+        }
+        
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .product-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .product-name {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        
+        .product-style {
+            color: #00d9ff;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+        
+        .product-duration {
+            color: #888;
+            font-size: 0.85em;
+            margin-bottom: 20px;
+        }
+        
+        .audio-player {
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+        
+        .product-price {
+            font-size: 1.8em;
+            color: #00d9ff;
+            margin-bottom: 15px;
+        }
+        
+        .buy-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #ff6b9d, #ff8a80);
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: opacity 0.3s;
+        }
+        
+        .buy-button:hover {
+            opacity: 0.9;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+        
+        .feature {
+            padding: 30px;
+        }
+        
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+        
+        .feature-title {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+        
+        .feature-desc {
+            color: #888;
+        }
+        
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .pricing-card.featured {
+            border-color: #00d9ff;
+            transform: scale(1.05);
+        }
+        
+        .pricing-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        
+        .pricing-price {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        
+        .pricing-price span {
+            font-size: 0.4em;
+            color: #888;
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+        
+        .pricing-features li {
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .contact {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .contact-title {
+            text-align: center;
+            font-size: 1.8em;
+            margin-bottom: 30px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+        }
+        
+        .contact-icon {
+            font-size: 1.5em;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #00d9ff;
+            color: #000;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .badge-new {
+            background: #ff6b9d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎵 AI Music Studio</h1>
+            <p class="subtitle">用AI生成专业背景音乐 | 商用无忧 | 即买即用</p>
+            <a href="#products" class="cta-button">🎧 试听样品</a>
+        </header>
+        
+        <section id="features" class="section">
+            <h2 class="section-title">为什么选择我们？</h2>
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-title">快速交付</div>
+                    <div class="feature-desc">下单即得，无需等待</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">💰</div>
+                    <div class="feature-title">价格实惠</div>
+                    <div class="feature-desc">最低只要 $9/首，比传统授权便宜 90%</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">✅</div>
+                    <div class="feature-title">商用授权</div>
+                    <div class="feature-desc">购买后可用于视频、播客、广告等</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🎨</div>
+                    <div class="feature-title">风格多样</div>
+                    <div class="feature-desc">背景音乐、氛围音乐、动感音乐...</div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="products" class="section">
+            <h2 class="section-title">🎧 音乐样品</h2>
+            <div class="products">
+                <div class="product-card">
+                    <div class="product-name">Happy Upbeat</div>
+                    <div class="product-style">快乐明亮 · 钢琴吉他</div>
+                    <div class="product-duration">⏱ 167秒</div>
+                    <audio controls class="audio-player" preload="none">
+                        <source src="samples/happy_upbeat_preview.mp3" type="audio/mpeg">
+                    </audio>
+                    <div class="product-price">$19</div>
+                    <a href="#" class="buy-button" onclick="alert('请联系客服购买'); return false;">立即购买</a>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-name">Relaxing Calm</div>
+                    <div class="product-style">平静放松 · 氛围音乐</div>
+                    <div class="product-duration">⏱ 150秒</div>
+                    <audio controls class="audio-player" preload="none">
+                        <source src="samples/relaxing_calm_preview.mp3" type="audio/mpeg">
+                    </audio>
+                    <div class="product-price">$19</div>
+                    <a href="#" class="buy-button" onclick="alert('请联系客服购买'); return false;">立即购买</a>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-name">Energetic Cinematic</div>
+                    <div class="product-style">史诗震撼 · 电影配乐</div>
+                    <div class="product-duration">⏱ 61秒</div>
+                    <audio controls class="audio-player" preload="none">
+                        <source src="samples/energetic_cinematic_preview.mp3" type="audio/mpeg">
+                    </audio>
+                    <div class="product-price">$19</div>
+                    <a href="#" class="buy-button" onclick="alert('请联系客服购买'); return false;">立即购买</a>
+                </div>
+                
+                <div class="product-card">
+                    <span class="badge badge-new">新</span>
+                    <div class="product-name">夏日海浪吻</div>
+                    <div class="product-style">原创中文歌曲 · 夏威夷风情</div>
+                    <div class="product-duration">⏱ 180秒 · 完整版</div>
+                    <audio controls class="audio-player" preload="none">
+                        <source src="samples/summer_beach_preview.mp3" type="audio/mpeg">
+                    </audio>
+                    <div class="product-price">$29 <span style="font-size:0.5em;color:#888">含歌词</span></div>
+                    <a href="#" class="buy-button" onclick="alert('请联系客服购买'); return false;">立即购买</a>
+                </div>
+            </div>
+        </section>
+        
+        <section id="pricing" class="section">
+            <h2 class="section-title">💎 套餐价格</h2>
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <div class="pricing-title">单曲</div>
+                    <div class="pricing-price">$19</div>
+                    <ul class="pricing-features">
+                        <li>✓ 1首音乐文件</li>
+                        <li>✓ WAV + MP3格式</li>
+                        <li>✓ 商用授权</li>
+                        <li>✓ 永久使用</li>
+                    </ul>
+                    <a href="#contact" class="buy-button">选择</a>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <div class="pricing-title">套餐包 ⭐</div>
+                    <div class="pricing-price">$49 <span>/套</span></div>
+                    <ul class="pricing-features">
+                        <li>✓ 3首音乐文件</li>
+                        <li>✓ WAV + MP3格式</li>
+                        <li>✓ 商用授权</li>
+                        <li>✓ 永久使用</li>
+                        <li>✓ 无限下载</li>
+                    </ul>
+                    <a href="#contact" class="buy-button">选择</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="pricing-title">定制</div>
+                    <div class="pricing-price">$99<span>+</span></div>
+                    <ul class="pricing-features">
+                        <li>✓ 指定风格/时长</li>
+                        <li>✓ 含歌词创作</li>
+                        <li>✓ 商用授权</li>
+                        <li>✓ 优先交付</li>
+                    </ul>
+                    <a href="#contact" class="buy-button">咨询</a>
+                </div>
+            </div>
+        </section>
+        
+        <section id="contact" class="section">
+            <div class="contact">
+                <h2 class="contact-title">📬 购买/联系</h2>
+                <div class="contact-item">
+                    <span class="contact-icon">💬</span>
+                    <span>Telegram: @your_username</span>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">📧</span>
+                    <span>Email: your@email.com</span>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">💳</span>
+                    <span>支持: PayPal, USDT, USDC, 银行卡</span>
+                </div>
+                <p style="text-align:center; margin-top: 20px; color: #888;">
+                    下单后 24 小时内交付，发到你的邮箱
+                </p>
+            </div>
+        </section>
+        
+        <footer>
+            <p>© 2025 AI Music Studio. All rights reserved.</p>
+            <p style="margin-top: 10px;">🎵 Powered by AI Music Generation</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Simple interaction
+        document.querySelectorAll('.buy-button').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const product = e.target.closest('.product-card, .pricing-card').querySelector('.product-name, .pricing-title').textContent;
+                console.log('Interested in:', product);
+            });
+        });
+        
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
